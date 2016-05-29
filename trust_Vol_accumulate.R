@@ -4,6 +4,7 @@ library(httr)
 library(rvest)
 library(quantmod)
 library(purrr)
+library(googleVis)
 
 # 搜尋證券交易所的投信買賣超彙總表
 
@@ -52,5 +53,5 @@ Dashed <-  gvisLineChart(df, xvar="date", yvar=c("Close","trust_accumu"),
                            vAxes="[{title:'Close'}, {title:'投信買賣超累計'}]"
                          ))
 plot(Dashed)
-cat(Dashed$html$chart, file="tmp.html")
+cat(Dashed$html$chart, file="trust_volume_accumulate.html")
 
