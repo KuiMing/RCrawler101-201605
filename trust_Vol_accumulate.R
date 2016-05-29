@@ -41,6 +41,9 @@ df=data.frame(date=date,
 names(df)[2]="Close"
 Dashed <-  gvisLineChart(df, xvar="date", yvar=c("Close","trust_accumu"),
                          options=list(
+                           title=paste(stock,'投信買賣超累計'),
+                           titleTextStyle="{fontName:'Courier',fontSize:32}",
+                           width=1200,
                            height=600,
                            series="[{color:'green', targetAxisIndex: 0,
                            lineWidth: 2},
@@ -49,4 +52,5 @@ Dashed <-  gvisLineChart(df, xvar="date", yvar=c("Close","trust_accumu"),
                            vAxes="[{title:'Close'}, {title:'投信買賣超累計'}]"
                          ))
 plot(Dashed)
+cat(Dashed$html$chart, file="tmp.html")
 
