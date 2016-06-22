@@ -1,11 +1,18 @@
 library(httr)
 library(XML)
 library(magrittr)
-res <- GET('http://pchome.megatime.com.tw/stock/sto0/ock3/sid1215.html',
-           add_headers(Referer= "http://pchome.megatime.com.tw/stock/sto0/ock2/sid1215.html"))
+pchome_stock_tick <- function(code='1215'){
+  url <- paste0('http://pchome.megatime.com.tw/stock/sto0/ock3/sid',
+                code,'.html')
+  ref <- paste0('http://pchome.megatime.com.tw/stock/sto0/ock2/sid',
+                code,'.html')
+  res <- GET(url,
+             add_headers(Referer= ref))
+  
+  resStr <- content(res,'text') %>% 
+    htmlParse() %>% 
+    readHTMLTable(stringsAsFactors=F) %>% 
+    .[[3]]
+}
 
-resStr <- content(res,'text') %>% 
-  htmlParse() %>% 
-  readHTMLTable() %>% 
-  .[[3]]
 
