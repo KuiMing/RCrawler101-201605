@@ -30,5 +30,5 @@ model <- model[-ind,]
 alphabet <- alphabet[-ind]
 svm_model <- svm(model,factor(alphabet))
 
-test <- capcha_denoise('cap71.jpeg')                 
+test <- capcha_denoise('capcha/cap71.jpeg')                 
 predict(svm_model,test)

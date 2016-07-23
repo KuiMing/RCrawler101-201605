@@ -10,7 +10,7 @@ capcha_denoise <- function(file){
   k=matrix(1,nrow=3, ncol=3)
   imp <- mmand::erode(im,k) %>% # erosion
     gaussianSmooth(1)    # blur 
-  k <- matrix(1,nrow=5,ncol=5)
+  k <- matrix(1,nrow=3,ncol=3)
   tmp <- deriche(imp,2,order=2,axis="y")+
     deriche(imp,2,order=2,axis="x") %>%  # edge filter
     mmand::dilate(k)                            # dilation
@@ -68,12 +68,12 @@ capcha_denoise <- function(file){
     x <- target[1,i]
     y <- target[2,i]
     coord <- SP@polygons[[x]]@Polygons[[y]]@coords
-    right <- min(coord[,1])
+    right <- min(coord[,1])-1
     if (right<1){right=1}
-    left <- max(coord[,1])
+    left <- max(coord[,1])+1
     ind <- 60:1
-    up <- ind[max(coord[,2])]
-    down <- ind[min(coord[,2])]
+    up <- ind[max(coord[,2])]-1
+    down <- ind[min(coord[,2])]+1
 
     w <- cap[up:down,right:left] %>% 
       resize(50,50) %>% 
