@@ -21,11 +21,7 @@ mv_for_blog <- function(file){
   repo <- format(Sys.time(),"%Y-%m-%d_%H-%M-%S")
   command <- paste("mkdir ",repo)
   system(command)
-  # move file folder of Rmarkdown output
-  command <- paste0("mv -f ",file,'_files/ ',
-                    repo, '/',file,'_files/')
-  system(command)
-  # move Rmd and html files
+  # move file folder, Rmd and html files
   command <- paste0("mv ", file,'* ', repo)
   system(command)
 }

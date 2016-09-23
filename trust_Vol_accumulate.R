@@ -10,7 +10,7 @@ library(googleVis)
 
 url = 'http://www.twse.com.tw/en/trading/fund/TWT44U/TWT44U.php'
 
-stock="1215"
+stock="1452"
 stock_data=paste0(stock,'.TW') %>% 
   getSymbols(auto.assign = FALSE)
 stock_data=stock_data[Vo(stock_data)>0]
