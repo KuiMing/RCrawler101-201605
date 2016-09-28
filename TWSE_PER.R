@@ -1,4 +1,4 @@
-TWSE_PER <- function(year=105, month="09", day="22"){
+TWSE_PER <- function(year="105", month="09", day="22"){
   url <- "http://www.twse.com.tw/ch/trading/exchange/BWIBBU/BWIBBU_d.php"
   form <- paste0("input_date=",year,"%2F",month,"%2F",day,
                  "&select2=ALL&order=STKNO&login_btn=%ACd%B8%DF")
