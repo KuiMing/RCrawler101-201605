@@ -1,3 +1,6 @@
+library(dplyr)
+library(httr)
+
 TWSE_margin <- function(year=2016, mons="09", day="26"){
   year=(year-1911) %>% as.character()
   url <- "http://www.twse.com.tw/ch/trading/exchange/MI_MARGN/MI_MARGN.php"
@@ -20,19 +23,20 @@ TWSE_margin <- function(year=2016, mons="09", day="26"){
               body=paste0("download=&qdate=",year,"%2F",mons,
                           "%2F",day,"&selectType=24"))
   
+# With rvest, can be runned in R, but not in terminal 
+  # tables=httr::content(res) %>%
+  #   rvest::html_table(fill = T) %>% 
+  #   .[[1]] %>% 
+  #   .[-(1:3),]
   
-  tables=httr::content(res) %>%
-    rvest::html_table(fill = T) %>% 
-    .[[1]] %>% 
-    .[-(1:3),]
+  tables=httr::content(res) %>% 
+    XML::htmlParse() %>% 
+    XML::readHTMLTable() %>% 
+    .[[1]] 
   
-  colnames(tables) <- c("code", "name", "MNew",	"MRedemption",	"MOutstanding",	"MYesterdayRemain",	"MTodayRemain",	"MTodayLimit",
-                        "SRedemption",	"SNew",	"SOutstanding",	"SYesterdayRemain",	"STodayRemain",	"STodayLimit","difference","note")
+  colnames(tables) <- c("code", "name", "MNew",	"MRedemption",	"MOutstanding",	"MYesterdayRemain",	"MTodayRemain",	"MTodayLimit","SRedemption", "SNew",	"SOutstanding",	"SYesterdayRemain",	"STodayRemain",	"STodayLimit","difference","note")
   tables[,3:15] <- lapply(3:15, function(x){
     gsub(',','',tables[,x]) %>% as.numeric()
   }) %>% do.call(cbind,.)
   return(tables)
 }
-
-
-
