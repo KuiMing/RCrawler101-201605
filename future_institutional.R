@@ -58,8 +58,8 @@ future_insti <- function(year,month,date){
     tbl[,i] <- gsub(',','',tbl[,i]) %>% 
       as.numeric()
   }
-  tbl$商品名稱[37]="期貨合計"
-  tbl$身份別[37]="法人"
+  tbl$商品名稱[dim(tbl)[1]]="期貨合計"
+  tbl$身份別[dim(tbl)[1]]="法人"
   return(tbl)
 }
 
