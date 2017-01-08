@@ -1,6 +1,6 @@
 library(httr)
 library(XML)
-future_insti <- function(year,month,date){
+future_total <- function(year,month,date){
   url='https://www.taifex.com.tw/chinese/3/7_8.asp'
   
   form=paste0('pFlag=&yytemp=',year,'&mmtemp=',
@@ -54,4 +54,5 @@ future_insti <- function(year,month,date){
   tbl <- tbl[-(1:2),]
   tbl$未沖銷部位數 <- gsub(',','',tbl$未沖銷部位數) %>% 
     as.numeric()
+  return(tbl)
 }
