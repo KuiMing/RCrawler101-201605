@@ -1,7 +1,7 @@
 library(WriteXLS)
 
 source('Github/RCrawler101-201605/future_institutional.R')
-source('Github/RCrawler101-201605/future_total.R.R')
+source('Github/RCrawler101-201605/future_total.R')
 
 source("Github/RCrawler101-201605/for_trading_date.R")
 som <- function(x) {
@@ -18,7 +18,7 @@ for (i in 1:60){
   date=som(date-1)
 }
 
-result <- lapply(1:length(y), function(x){
+result <- lapply(1:10, function(x){
   date=y[x]
   print(date)
   year=format(date, "%Y")
