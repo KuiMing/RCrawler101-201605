@@ -37,6 +37,5 @@ TWSE_csv <- function(stock="1215",year_in,month_in){
   
   tables <- xts(tables[,2:6], as.Date(tables[,1])) %>% 
     as.zoo()
-  Sys.sleep(sample(30:40,1))
   return(tables)
 }

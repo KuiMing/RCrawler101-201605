@@ -1,6 +1,7 @@
 library(httr)
 library(XML)
 library(rvest)
+library(reshape2)
 future_insti <- function(year,month,date){
   url="https://www.taifex.com.tw/chinese/3/7_12_3.asp"
   form <- paste0("goday=&DATA_DATE_Y=",year,"&DATA_DATE_M=",month,"&DATA_DATE_D=",date,"&syear=",year,"&smonth=",month,"&sday=",date,"&datestart=",year,"%2F",month,"%2F",date,"&COMMODITY_ID=")
