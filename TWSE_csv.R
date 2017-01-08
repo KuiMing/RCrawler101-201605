@@ -1,6 +1,7 @@
 library(httr)
 library(XML)
 library(dplyr)
+library(quantmod)
 TWSE_csv <- function(stock="1215",year_in,month_in){
   url <- "http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAY.php"
   year <- as.numeric(year_in)
