@@ -33,11 +33,11 @@ future_insti <- function(year,month,date){
   }
   
   
-  x=sapply(tbl$V2[seq(4,37,3)], function(x){
+  x=sapply(tbl$V2[seq(4,dim(tbl)[1]-3,3)], function(x){
     rep(x,3)})
   x=melt(x) %>% .[,3]
   x=as.character(x)
-  tbl$V2[4:39]=x
+  tbl$V2[4:(dim(tbl)[1]-1)]=x
   
   tbl=tbl[,-1]
   colnames(tbl) <- c('商品名稱','身份別',
