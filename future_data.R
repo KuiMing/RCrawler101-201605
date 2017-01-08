@@ -18,7 +18,7 @@ for (i in 1:60){
   date=som(date-1)
 }
 
-result <- lapply(1:10, function(x){
+result <- lapply(1:length(y), function(x){
   date=y[x]
   print(date)
   year=format(date, "%Y")
@@ -48,6 +48,6 @@ msg = mime() %>%
   from("kmchen0901@gmail.com") %>%
   to("benjamin0901@gmail.com") %>%
   subject('semiconductor') %>%
-  html_body(today) %>%
+  html_body('future data') %>%
   attach_file('result.xls')
 send_message(msg)
