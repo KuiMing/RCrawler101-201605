@@ -27,14 +27,14 @@ p=ggplot(y,aes(x=date))+
   geom_line(aes(y=散空),color='blue')+
   geom_line(aes(y=`總未`))
 pp=ggplotly(p)
-saveWidget(pp, file='future_short.html', selfcontained=F)
+saveWidget(pp, file='/home/pi/Github/investment/future_short.html', selfcontained=F)
 
 p=ggplot(y,aes(x=date))+
   geom_line(aes(y=外多),color='red')+
   geom_line(aes(y=散多),color='blue')+
   geom_line(aes(y=`總未`))
 pp=ggplotly(p)
-saveWidget(pp, file='future_long.html', selfcontained=F)
+saveWidget(pp, file='/home/pi/Github/investment/future_long.html', selfcontained=F)
 
 
 library(gmailr)
