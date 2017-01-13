@@ -1,6 +1,7 @@
-load('future.RData')
+load('/home/pi/future.RData')
 date=Sys.Date()
-
+source('/home/pi/Github/RCrawler101-201605/future_institutional.R')
+source('/home/pi/Github/RCrawler101-201605/future_total.R')
 year=format(date, "%Y")
 month=format(date,"%m")
 day=format(date,"%d")
