@@ -38,7 +38,7 @@ future_total <- function(year,month,date){
     tbl[x,(shiftn+1):dim(tbl)[2]]=tbl[x,ind]
   }
   
-  tbl$V1[seq(7,439,2)]=tbl$V1[seq(6,438,2)]
+  tbl$V1[seq(7,dim(tbl)[1],2)]=tbl$V1[seq(6,dim(tbl)[1]-1,2)]
   tbl$V1[4:5]=tbl$V1[3]
   
   colnames(tbl) <- c("契約名稱","到期月份",
