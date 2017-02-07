@@ -20,7 +20,7 @@ colnames(data) <- c('自多','投多','外多','法多','散多',
                     '總未')
 data$date=date
 y=rbind(y,data)
-save(y,file = 'future.RData')
+save(y,file = '/home/pi/future.RData')
 library(plotly)
 library(htmlwidgets)
 p=ggplot(y,aes(x=date))+
