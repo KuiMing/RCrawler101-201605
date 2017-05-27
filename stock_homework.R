@@ -11,21 +11,23 @@ som <- function(x) {
 
 fund=function(fund_source,date=format(Sys.time(),"%Y/%m/%d")){
   if (fund_source %in% 'foreign'){
-    url = 'http://www.twse.com.tw/en/trading/fund/TWT38U/TWT38U.php'
+    url = 'http://www.twse.com.tw/en/fund/TWT38U?response=html&date='
   }
   if (fund_source %in% 'trust'){
-    url = 'http://www.twse.com.tw/en/trading/fund/TWT44U/TWT44U.php'
+    url = 'http://www.twse.com.tw/en/fund/TWT44U?response=html&date='
   }
   if (fund_source %in% 'dealer'){
-    url = 'http://www.twse.com.tw/en/trading/fund/TWT43U/TWT43U.php'
+    url = 'http://www.twse.com.tw/en/fund/TWT43U?response=html&date='
   }
-  res=httr::POST(url,
-                 httr::add_headers(
-                   `Content-Type`= "application/x-www-form-urlencoded"
-                 ),
-                 body = paste0('download=html&qdate=',date,'&sorting=by_issue'))
+#   res=httr::POST(url,
+#                  httr::add_headers(
+#                    `Content-Type`= "application/x-www-form-urlencoded"
+#                  ),
+#                  body = paste0('download=html&qdate=',date,'&sorting=by_issue'))
+  url=paste0(url,date)
+  res=httr::GET(url)
   tables=httr::content(res,encoding = 'utf8') %>%
-    rvest::html_table(fill = T)
+    rvest::html_table(fill = T,header=F)
   tables=tables[[1]] %>%
     data.table::as.data.table()
   if (fund_source %in% 'dealer'){
