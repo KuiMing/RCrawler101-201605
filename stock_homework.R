@@ -11,23 +11,25 @@ som <- function(x) {
 
 fund=function(fund_source,date=format(Sys.time(),"%Y/%m/%d")){
   if (fund_source %in% 'foreign'){
-    url = 'http://www.twse.com.tw/en/trading/fund/TWT38U/TWT38U.php'
+    url = 'http://www.twse.com.tw/en/fund/TWT38U?response=html&date='
   }
   if (fund_source %in% 'trust'){
-    url = 'http://www.twse.com.tw/en/trading/fund/TWT44U/TWT44U.php'
+    url = 'http://www.twse.com.tw/en/fund/TWT44U?response=html&date='
   }
   if (fund_source %in% 'dealer'){
-    url = 'http://www.twse.com.tw/en/trading/fund/TWT43U/TWT43U.php'
+    url = 'http://www.twse.com.tw/en/fund/TWT43U?response=html&date='
   }
-  res=httr::POST(url,
-                 httr::add_headers(
-                   `Content-Type`= "application/x-www-form-urlencoded"
-                 ),
-                 body = paste0('download=html&qdate=',date,'&sorting=by_issue'))
+#   res=httr::POST(url,
+#                  httr::add_headers(
+#                    `Content-Type`= "application/x-www-form-urlencoded"
+#                  ),
+#                  body = paste0('download=html&qdate=',date,'&sorting=by_issue'))
+  url=paste0(url,date)
+  res=httr::GET(url)
   tables=httr::content(res,encoding = 'utf8') %>%
-    rvest::html_table(fill = T)
-  tables=tables[[1]] %>% 
-    data.table::as.data.table() 
+    rvest::html_table(fill = T,header=F)
+  tables=tables[[1]] %>%
+    data.table::as.data.table()
   if (fund_source %in% 'dealer'){
     tables=tables[-(1:3),c("X1","X10"),with=F]
   }else {
@@ -44,12 +46,12 @@ count=0
 Date=Sys.Date()
 today=format(Date,"%Y%m%d")
 while (count<3){
-  tables=c('foreign','trust','dealer') %>% 
+  tables=c('foreign','trust','dealer') %>%
     lapply(function(x,date=format(Date,'%Y/%m/%d')){
     x=fund(x,date)
     x=setkey(x,code)[.(homework$code)]
     x=x[is.na(difference)==T,difference:=0]
-  }) 
+  })
 
   if (abs(sum(tables[[1]]$difference))>0){
     if (is.na(homework[1,3])){
@@ -61,7 +63,7 @@ while (count<3){
         homework[,i]=homework[,i]+tables[[(i-1) %/% 2]][,difference]
       }
     }
-    
+
     count=count+1
   }
   Date=Date-1
@@ -84,7 +86,7 @@ temp=lapply(homework$code, function(x){
   # y=getSymbols(paste0(x,'.TW'),auto.assign = F)
   y <- rbind(TWSE_csv(x,year[1],mons[1]),
              TWSE_csv(x,year[2],mons[2]),
-             TWSE_csv(x,year[2],mons[3]))
+             TWSE_csv(x,year[3],mons[3]))
   k=as.numeric(tail(Cl(y),1)-tail(SMA(Cl(y),20),1))>0
   rsi50=as.numeric(tail(RSI(Cl(y),10),1)) %>% round()
   V=diff(as.numeric(tail(Vo(y),2)))
@@ -93,12 +95,12 @@ temp=lapply(homework$code, function(x){
 })
 
 
-ye <- format(Sys.Date(), "%Y") %>% 
+ye <- format(Sys.Date(), "%Y") %>%
   as.numeric()
 
 day <- format(Sys.Date(),"%d")
 source('Github/RCrawler101-201605/TWSE_margin.R')
-margin <- TWSE_margin(ye,mons[3],day) %>% 
+margin <- TWSE_margin(ye,mons[3],day) %>%
   filter(code %in% homework$code)
 homework <- filter(homework,code %in% margin$code)
 
